@@ -10,6 +10,7 @@ Summary:	Library for reading and writing gif images
 License:	BSD like
 Source:		%{name}-%{version}.tar.bz2
 Group:		System/Libraries
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 %description
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
