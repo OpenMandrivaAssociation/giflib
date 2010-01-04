@@ -4,11 +4,12 @@
 
 Name:		giflib
 Version:	4.1.6
-Release:	%mkrel 2
+Release:	%mkrel 3
 URL:		http://giflib.sourceforge.net/
 Summary:	Library for reading and writing gif images
 License:	BSD like
 Source:		%{name}-%{version}.tar.bz2
+Patch0:     giflib-4.1.6-fix-string-format.patch
 Group:		System/Libraries
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 %description
@@ -19,6 +20,8 @@ compression algorithm was patented.
 %package progs
 Summary:	Gif tools based on giflib
 Group:		Graphics
+Obsoletes:  ungif-progs < 4.1.4-10
+Provides:   ungif-progs = %version-%release
 
 %description progs
 giflib is a library for reading and writing gif images. It is API and
@@ -30,6 +33,9 @@ This package provides some gif tools based on giflib.
 %package -n %libname
 Group:		System/Libraries
 Summary:	Library for reading and writing gif images
+Obsoletes:  %{_lib}ungif4 < 4.1.4-10
+Provides:   %{_lib}ungif4 = %version-%release
+Provides:   %{_lib}ungif = %version-%release
 
 %description -n %libname
 giflib is a library for reading and writing gif images. It is API and
@@ -41,6 +47,9 @@ Group:		Development/C
 Summary:	Development files for giflib
 Requires:	%libname
 Provides:	giflib-devel = %{version}-%{release}
+Obsoletes:  %{_lib}ungif4-devel < 4.1.4-10
+Provides:   %{_lib}ungif4-devel = %version-%release
+Provides:   %{_lib}ungif-devel = %version-%release
 
 %description -n %develname
 giflib is a library for reading and writing gif images. It is API and
@@ -51,9 +60,10 @@ This packages provides the developement files for giflib.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
-%configure
+%configure2_5x
 %make
 
 %clean
@@ -63,12 +73,9 @@ This packages provides the developement files for giflib.
 %{__rm} -Rf %{buildroot}
 %makeinstall
 
-%post -n %libname -p /sbin/ldconfig
-
-%postun -n %libname -p /sbin/ldconfig
-
 %files progs
 %doc AUTHORS BUGS COPYING ChangeLog NEWS ONEWS README TODO
+%{_bindir}/gif2x11
 %{_bindir}/gif2epsn
 %{_bindir}/gif2ps
 %{_bindir}/gif2rgb
