@@ -4,7 +4,7 @@
 
 Name:		giflib
 Version:	4.1.6
-Release:	%mkrel 4
+Release:	%mkrel 5
 URL:		http://giflib.sourceforge.net/
 Summary:	Library for reading and writing gif images
 License:	BSD like
@@ -21,8 +21,8 @@ compression algorithm was patented.
 %package progs
 Summary:	Gif tools based on giflib
 Group:		Graphics
-Obsoletes:  ungif-progs < 4.1.4-10
-Provides:   ungif-progs = %version-%release
+Obsoletes:  libungif-progs < 4.1.4-10
+Provides:   libungif-progs = %version-%release
 
 %description progs
 giflib is a library for reading and writing gif images. It is API and
@@ -51,6 +51,9 @@ Provides:	giflib-devel = %{version}-%{release}
 Obsoletes:  %{_lib}ungif4-devel < 4.1.4-10
 Provides:   %{_lib}ungif4-devel = %version-%release
 Provides:   %{_lib}ungif-devel = %version-%release
+Obsoletes:  %{_lib}ungif4-static-devel < 4.1.4-10
+Provides:   %{_lib}ungif4-static-devel = %version-%release
+Provides:   %{_lib}ungif-static-devel = %version-%release
 
 %description -n %develname
 giflib is a library for reading and writing gif images. It is API and
