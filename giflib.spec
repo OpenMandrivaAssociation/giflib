@@ -4,7 +4,7 @@
 
 Name:		giflib
 Version:	4.1.6
-Release:	%mkrel 3
+Release:	%mkrel 4
 URL:		http://giflib.sourceforge.net/
 Summary:	Library for reading and writing gif images
 License:	BSD like
@@ -67,12 +67,21 @@ This packages provides the developement files for giflib.
 %configure2_5x
 %make
 
+# Handling of libungif compatibility
+MAJOR=`echo '%{version}' | sed -e 's/\([0-9]\+\)\..*/\1/'`
+%{__cc} $RPM_OPT_FLAGS -shared -Wl,-soname,libungif.so.$MAJOR -Llib/.libs -lgif -o libungif.so.%{version}
+
 %clean
 %{__rm} -Rf %{buildroot}
 
 %install
 %{__rm} -Rf %{buildroot}
 %makeinstall
+
+# Handling of libungif compatibility
+install -p -m 755 libungif.so.%{version} $RPM_BUILD_ROOT%{_libdir}
+ln -sf libungif.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libungif.so.4
+ln -sf libungif.so.4 $RPM_BUILD_ROOT%{_libdir}/libungif.so
 
 %files progs
 %doc AUTHORS BUGS COPYING ChangeLog NEWS ONEWS README TODO
@@ -112,8 +121,12 @@ This packages provides the developement files for giflib.
 %{_libdir}/libgif.so.%{major}
 %{_libdir}/libgif.so.%{major}.*
 
+%{_libdir}/libungif.so.%{major}
+%{_libdir}/libungif.so.%{major}.*
+
 %files -n %develname
 %{_includedir}/gif_lib.h
 %{_libdir}/libgif.a
 %{_libdir}/libgif.la
 %{_libdir}/libgif.so
+%{_libdir}/libungif.so
