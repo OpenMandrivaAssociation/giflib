@@ -10,6 +10,7 @@ Summary:	Library for reading and writing gif images
 License:	BSD like
 Source:		%{name}-%{version}.tar.bz2
 Patch0:     giflib-4.1.6-fix-string-format.patch
+BuildRequires: libx11-devel
 Group:		System/Libraries
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 %description
