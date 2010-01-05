@@ -4,7 +4,7 @@
 
 Name:		giflib
 Version:	4.1.6
-Release:	%mkrel 6
+Release:	%mkrel 7
 URL:		http://giflib.sourceforge.net/
 Summary:	Library for reading and writing gif images
 License:	BSD like
@@ -51,6 +51,7 @@ Provides:	giflib-devel = %{version}-%{release}
 Obsoletes:  %{_lib}ungif4-devel < 4.1.4-10
 Provides:   %{_lib}ungif4-devel = %version-%release
 Provides:   %{_lib}ungif-devel = %version-%release
+Provides:   libungif-devel = %version-%release
 Provides:   ungif-devel = %version-%release
 Obsoletes:  %{_lib}ungif4-static-devel < 4.1.4-10
 Provides:   %{_lib}ungif4-static-devel = %version-%release
