@@ -4,7 +4,7 @@
 
 Name:		giflib
 Version:	4.1.6
-Release:	%mkrel 9
+Release:	%mkrel 10
 URL:		http://giflib.sourceforge.net/
 Summary:	Library for reading and writing gif images
 License:	BSD like
@@ -47,7 +47,7 @@ compression algorithm was patented.
 %package -n %develname
 Group:		Development/C
 Summary:	Development files for giflib
-Requires:	%libname
+Requires:	%libname = %version-%release
 Provides:	giflib-devel = %{version}-%{release}
 Obsoletes:  %{_lib}ungif4-devel < 4.1.4-10
 Provides:   %{_lib}ungif4-devel = %version-%release
