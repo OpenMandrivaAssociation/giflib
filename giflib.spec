@@ -4,7 +4,7 @@
 
 Name:		giflib
 Version:	4.1.6
-Release:	%mkrel 10
+Release:	%mkrel 11
 URL:		http://giflib.sourceforge.net/
 Summary:	Library for reading and writing gif images
 License:	BSD like
