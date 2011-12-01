@@ -87,9 +87,9 @@ MAJOR=`echo '%{version}' | sed -e 's/\([0-9]\+\)\..*/\1/'`
 %makeinstall_std
 
 # Handling of libungif compatibility
-install -p -m 755 libungif.so.%{version} $RPM_BUILD_ROOT%{_libdir}
-ln -sf libungif.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libungif.so.4
-ln -sf libungif.so.4 $RPM_BUILD_ROOT%{_libdir}/libungif.so
+install -p -m 755 libungif.so.%{version} %{buildroot}%{_libdir}
+ln -sf libungif.so.%{version} %{buildroot}%{_libdir}/libungif.so.4
+ln -sf libungif.so.4 %{buildroot}%{_libdir}/libungif.so
 
 %files progs
 %doc AUTHORS BUGS COPYING ChangeLog NEWS ONEWS README TODO
