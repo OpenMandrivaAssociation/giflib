@@ -1,19 +1,20 @@
 %define major 4
-%define libname %mklibname gif %major
+%define libname %mklibname gif %{major}
+%define libungif %mklibname ungif %{major}
 %define develname %mklibname -d gif
 
+Summary:	Library for reading and writing gif images
 Name:		giflib
 Version:	4.1.6
-Release:	%mkrel 11
-URL:		http://giflib.sourceforge.net/
-Summary:	Library for reading and writing gif images
+Release:	12
+Group:		System/Libraries
 License:	BSD like
+URL:		http://giflib.sourceforge.net/
 Source:		%{name}-%{version}.tar.bz2
 Patch0:		giflib-4.1.6-fix-string-format.patch
 Patch1:		giflib-4.1.6-fix-link.patch
-BuildRequires:	libx11-devel
-Group:		System/Libraries
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRequires:	pkgconfig(x11)
+
 %description
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
@@ -22,8 +23,7 @@ compression algorithm was patented.
 %package progs
 Summary:	Gif tools based on giflib
 Group:		Graphics
-Obsoletes:  libungif-progs < 4.1.4-10
-Provides:   libungif-progs = %version-%release
+%rename libungif-progs
 
 %description progs
 giflib is a library for reading and writing gif images. It is API and
@@ -32,33 +32,37 @@ compression algorithm was patented.
 
 This package provides some gif tools based on giflib.
 
-%package -n %libname
+%package -n %{libname}
 Group:		System/Libraries
 Summary:	Library for reading and writing gif images
-Obsoletes:  %{_lib}ungif4 < 4.1.4-10
-Provides:   %{_lib}ungif4 = %version-%release
-Provides:   %{_lib}ungif = %version-%release
 
-%description -n %libname
+%description -n %{libname}
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
 
-%package -n %develname
+%package -n %{libungif}
+Group:		System/Libraries
+Summary:	Library for reading and writing gif images
+Conflicts: %{_lib}gif4 < 4.1.6-12
+
+%description -n %{libungif}
+giflib is a library for reading and writing gif images. It is API and
+ABI compatible with libungif which was in wide use while the LZW
+compression algorithm was patented.
+
+%package -n %{develname}
 Group:		Development/C
 Summary:	Development files for giflib
-Requires:	%libname = %version-%release
+Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libungif} = %{version}-%{release}
 Provides:	giflib-devel = %{version}-%{release}
-Obsoletes:  %{_lib}ungif4-devel < 4.1.4-10
-Provides:   %{_lib}ungif4-devel = %version-%release
-Provides:   %{_lib}ungif-devel = %version-%release
-Provides:   libungif-devel = %version-%release
-Provides:   ungif-devel = %version-%release
-Obsoletes:  %{_lib}ungif4-static-devel < 4.1.4-10
-Provides:   %{_lib}ungif4-static-devel = %version-%release
-Provides:   %{_lib}ungif-static-devel = %version-%release
+Provides:   ungif-devel = %{version}-%{release}
+%rename %{_lib}ungif4-devel
+Obsoletes:	%{_lib}ungif-devel
+Obsoletes:	%{_lib}ungif4-static-devel
 
-%description -n %develname
+%description -n %{develname}
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
@@ -72,18 +76,17 @@ This packages provides the developement files for giflib.
 
 %build
 autoreconf -fi
-%configure2_5x
+%configure2_5x \
+	--disable-static
+
 %make
 
 # Handling of libungif compatibility
 MAJOR=`echo '%{version}' | sed -e 's/\([0-9]\+\)\..*/\1/'`
 %{__cc} %ldflags %optflags -shared -Wl,-soname,libungif.so.$MAJOR -Llib/.libs -lgif -o libungif.so.%{version}
 
-%clean
-%{__rm} -Rf %{buildroot}
-
 %install
-%{__rm} -Rf %{buildroot}
+rm -rf %{buildroot}
 %makeinstall_std
 
 # Handling of libungif compatibility
@@ -124,17 +127,13 @@ ln -sf libungif.so.4 %{buildroot}%{_libdir}/libungif.so
 %{_bindir}/rgb2gif
 %{_bindir}/text2gif
 
-%files -n %libname
-%doc AUTHORS BUGS COPYING ChangeLog NEWS ONEWS README TODO
-%{_libdir}/libgif.so.%{major}
-%{_libdir}/libgif.so.%{major}.*
+%files -n %{libname}
+%{_libdir}/libgif.so.%{major}*
 
-%{_libdir}/libungif.so.%{major}
-%{_libdir}/libungif.so.%{major}.*
+%files -n %{libungif}
+%{_libdir}/libungif.so.%{major}*
 
-%files -n %develname
+%files -n %{develname}
 %{_includedir}/gif_lib.h
-%{_libdir}/libgif.a
-%{_libdir}/libgif.la
 %{_libdir}/libgif.so
 %{_libdir}/libungif.so
