@@ -6,7 +6,7 @@
 Summary:	Library for reading and writing gif images
 Name:		giflib
 Version:	4.1.6
-Release:	12
+Release:	15
 Group:		System/Libraries
 License:	BSD like
 URL:		http://giflib.sourceforge.net/
@@ -59,8 +59,6 @@ Requires:	%{libungif} = %{version}-%{release}
 Provides:	giflib-devel = %{version}-%{release}
 Provides:   ungif-devel = %{version}-%{release}
 %rename %{_lib}ungif4-devel
-Obsoletes:	%{_lib}ungif-devel
-Obsoletes:	%{_lib}ungif4-static-devel
 
 %description -n %{develname}
 giflib is a library for reading and writing gif images. It is API and
@@ -137,3 +135,59 @@ ln -sf libungif.so.4 %{buildroot}%{_libdir}/libungif.so
 %{_includedir}/gif_lib.h
 %{_libdir}/libgif.so
 %{_libdir}/libungif.so
+
+
+%changelog
+* Wed Jan 04 2012 Matthew Dawkins <mattydaw@mandriva.org> 4.1.6-14
++ Revision: 752672
+- rebuild for .la files
+- split up libungif pkg
+- disabled static build
+- cleaned up spec (more could be done)
+
+* Tue May 03 2011 Oden Eriksson <oeriksson@mandriva.com> 4.1.6-11
++ Revision: 664831
+- mass rebuild
+
+* Mon Mar 21 2011 Funda Wang <fwang@mandriva.org> 4.1.6-10
++ Revision: 647240
+- bump requires
+
+* Sat Jan 29 2011 Funda Wang <fwang@mandriva.org> 4.1.6-9
++ Revision: 633913
+- fix linkage
+
+* Thu Dec 02 2010 Oden Eriksson <oeriksson@mandriva.com> 4.1.6-8mdv2011.0
++ Revision: 605455
+- rebuild
+
+* Tue Jan 05 2010 Nicolas Lécureuil <nlecureuil@mandriva.com> 4.1.6-7mdv2010.1
++ Revision: 486488
+- Provide libungif-devel
+
+* Tue Jan 05 2010 Nicolas Lécureuil <nlecureuil@mandriva.com> 4.1.6-6mdv2010.1
++ Revision: 486305
+- Add forgotten provide
+
+* Mon Jan 04 2010 Nicolas Lécureuil <nlecureuil@mandriva.com> 4.1.6-5mdv2010.1
++ Revision: 486194
+- Fix provides/obsoletes
+
+* Mon Jan 04 2010 Nicolas Lécureuil <nlecureuil@mandriva.com> 4.1.6-4mdv2010.1
++ Revision: 486179
+- Handle of libungif compatibility
+
+* Mon Jan 04 2010 Nicolas Lécureuil <nlecureuil@mandriva.com> 4.1.6-3mdv2010.1
++ Revision: 486154
+- Add buildrequire: libx11-devel
+- P0: Fix format strings errors
+  Fix libtool errors by using %%configure2_5x
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+
+* Thu Sep 11 2008 Nicolas Vigier <nvigier@mandriva.com> 4.1.6-1mdv2009.0
++ Revision: 283798
+- import giflib
+
+
