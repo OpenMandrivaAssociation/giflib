@@ -1,0 +1,11 @@
+--- giflib-4.2.1/configure.ac.am13~	2013-01-13 22:19:24.000000000 +0100
++++ giflib-4.2.1/configure.ac	2013-01-13 22:19:52.837982460 +0100
+@@ -5,7 +5,7 @@ AM_INIT_AUTOMAKE([gnu dist-bzip2 -Wall])
+ 
+ dnl Note: config.h is not used in the current build
+ dnl We leave this in place only to supptess an error message at autogen time
+-AM_CONFIG_HEADER(config.h)
++AC_CONFIG_HEADERS([config.h])
+ 
+ dnl Checks for programs.
+ AC_PROG_LIBTOOL

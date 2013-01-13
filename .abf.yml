@@ -1,2 +1,4 @@
+removed_sources:
+  giflib-4.1.6.tar.bz2: 22680f604ec92065f04caf00b1c180ba74fb8562
 sources:
-  "giflib-4.1.6.tar.bz2": 22680f604ec92065f04caf00b1c180ba74fb8562
+  giflib-4.2.1.tar.bz2: 82d5db53cf2cd19f09f511d40ff45ce80ab3ba8f

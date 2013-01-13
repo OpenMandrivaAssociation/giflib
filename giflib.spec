@@ -5,16 +5,22 @@
 
 Summary:	Library for reading and writing gif images
 Name:		giflib
-Version:	4.1.6
-Release:	16
+Version:	4.2.1
+Release:	1
 Group:		System/Libraries
 License:	BSD like
 URL:		http://giflib.sourceforge.net/
-Source:		%{name}-%{version}.tar.bz2
-Patch0:		giflib-4.1.6-fix-string-format.patch
+Source0:	http://switch.dl.sourceforge.net/project/giflib/giflib-4.x/giflib-%version.tar.bz2
 Patch1:		giflib-4.1.6-fix-link.patch
-Patch2:		giflib-4.1.6-automake-1.13.patch
+Patch2:		giflib-4.2.1-automake-1.13.patch
 BuildRequires:	pkgconfig(x11)
+
+%track
+prog %name = {
+	url = http://sourceforge.net/projects/giflib/
+	regex = %name-(__VER__)\.tar\.bz2
+	version = %version
+}
 
 %description
 giflib is a library for reading and writing gif images. It is API and
@@ -70,7 +76,6 @@ This packages provides the developement files for giflib.
 
 %prep
 %setup -q
-%patch0 -p0
 %patch1 -p0
 %patch2 -p1 -b .am13~
 
@@ -95,10 +100,8 @@ ln -sf libungif.so.%{version} %{buildroot}%{_libdir}/libungif.so.4
 ln -sf libungif.so.4 %{buildroot}%{_libdir}/libungif.so
 
 %files progs
-%doc AUTHORS BUGS COPYING ChangeLog NEWS ONEWS README TODO
+%doc AUTHORS BUGS COPYING ChangeLog NEWS README TODO
 %{_bindir}/gif2x11
-%{_bindir}/gif2epsn
-%{_bindir}/gif2ps
 %{_bindir}/gif2rgb
 %{_bindir}/gifasm
 %{_bindir}/gifbg
