@@ -6,13 +6,14 @@
 Summary:	Library for reading and writing gif images
 Name:		giflib
 Version:	4.1.6
-Release:	15
+Release:	16
 Group:		System/Libraries
 License:	BSD like
 URL:		http://giflib.sourceforge.net/
 Source:		%{name}-%{version}.tar.bz2
 Patch0:		giflib-4.1.6-fix-string-format.patch
 Patch1:		giflib-4.1.6-fix-link.patch
+Patch2:		giflib-4.1.6-automake-1.13.patch
 BuildRequires:	pkgconfig(x11)
 
 %description
@@ -71,6 +72,7 @@ This packages provides the developement files for giflib.
 %setup -q
 %patch0 -p0
 %patch1 -p0
+%patch2 -p1 -b .am13~
 
 %build
 autoreconf -fi
