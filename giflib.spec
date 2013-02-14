@@ -1,7 +1,7 @@
 %define major 4
-%define libname %mklibname gif %{major}
-%define libungif %mklibname ungif %{major}
-%define develname %mklibname -d gif
+%define	libname	%mklibname gif %{major}
+%define	libungif %mklibname ungif %{major}
+%define	devname	%mklibname -d gif
 
 Summary:	Library for reading and writing gif images
 Name:		giflib
@@ -28,47 +28,47 @@ giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
 
-%package progs
+%package	progs
 Summary:	Gif tools based on giflib
 Group:		Graphics
-%rename libungif-progs
+%rename		libungif-progs
 
-%description progs
+%description	progs
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
 
 This package provides some gif tools based on giflib.
 
-%package -n %{libname}
+%package -n	%{libname}
 Group:		System/Libraries
 Summary:	Library for reading and writing gif images
 
-%description -n %{libname}
+%description -n	%{libname}
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
 
-%package -n %{libungif}
+%package -n	%{libungif}
 Group:		System/Libraries
 Summary:	Library for reading and writing gif images
-Conflicts: %{_lib}gif4 < 4.1.6-12
+Conflicts:	%{_lib}gif4 < 4.1.6-12
 
-%description -n %{libungif}
+%description -n	%{libungif}
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
 
-%package -n %{develname}
+%package -n	%{devname}
 Group:		Development/C
 Summary:	Development files for giflib
 Requires:	%{libname} = %{version}-%{release}
 Requires:	%{libungif} = %{version}-%{release}
 Provides:	giflib-devel = %{version}-%{release}
-Provides:   ungif-devel = %{version}-%{release}
-%rename %{_lib}ungif4-devel
+Provides:	ungif-devel = %{version}-%{release}
+%rename		%{_lib}ungif4-devel
 
-%description -n %{develname}
+%description -n	%{devname}
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
@@ -89,7 +89,7 @@ autoreconf -fi
 
 # Handling of libungif compatibility
 MAJOR=`echo '%{version}' | sed -e 's/\([0-9]\+\)\..*/\1/'`
-%{__cc} %ldflags %optflags -shared -Wl,-soname,libungif.so.$MAJOR -Llib/.libs -lgif -o libungif.so.%{version}
+%{__cc} %{ldflags} %{optflags} -shared -Wl,-soname,libungif.so.$MAJOR -Llib/.libs -lgif -o libungif.so.%{version}
 
 %install
 rm -rf %{buildroot}
@@ -137,7 +137,7 @@ ln -sf libungif.so.4 %{buildroot}%{_libdir}/libungif.so
 %files -n %{libungif}
 %{_libdir}/libungif.so.%{major}*
 
-%files -n %{develname}
+%files -n %{devname}
 %{_includedir}/gif_lib.h
 %{_libdir}/libgif.so
 %{_libdir}/libungif.so
