@@ -14,6 +14,7 @@ Source0:	http://switch.dl.sourceforge.net/project/giflib/giflib-4.x/giflib-%vers
 Patch1:		giflib-4.1.6-fix-link.patch
 Patch2:		giflib-4.2.1-automake-1.13.patch
 BuildRequires:	pkgconfig(x11)
+BuildRequires:	xmlto
 
 %track
 prog %name = {
