@@ -79,9 +79,9 @@ This packages provides the developement files for giflib.
 %setup -q
 %patch1 -p0
 %patch2 -p1 -b .am13~
+autoreconf -fi
 
 %build
-autoreconf -fi
 %configure2_5x \
 	--disable-static
 
