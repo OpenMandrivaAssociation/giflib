@@ -1,17 +1,15 @@
-%define major 4
+%define major 6
 %define	libname	%mklibname gif %{major}
-%define	libungif %mklibname ungif %{major}
 %define	devname	%mklibname -d gif
 
 Summary:	Library for reading and writing gif images
 Name:		giflib
-Version:	4.2.1
+Version:	5.0.4
 Release:	1
 Group:		System/Libraries
 License:	BSD like
 URL:		http://giflib.sourceforge.net/
-Source0:	http://switch.dl.sourceforge.net/project/giflib/giflib-4.x/giflib-%version.tar.bz2
-Patch1:		giflib-4.1.6-fix-link.patch
+Source0:	http://switch.dl.sourceforge.net/project/giflib/giflib-5.x/giflib-%version.tar.bz2
 Patch2:		giflib-4.2.1-automake-1.13.patch
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	xmlto
@@ -49,21 +47,10 @@ giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
 
-%package -n	%{libungif}
-Group:		System/Libraries
-Summary:	Library for reading and writing gif images
-Conflicts:	%{_lib}gif4 < 4.1.6-12
-
-%description -n	%{libungif}
-giflib is a library for reading and writing gif images. It is API and
-ABI compatible with libungif which was in wide use while the LZW
-compression algorithm was patented.
-
 %package -n	%{devname}
 Group:		Development/C
 Summary:	Development files for giflib
 Requires:	%{libname} = %{version}-%{release}
-Requires:	%{libungif} = %{version}-%{release}
 Provides:	giflib-devel = %{version}-%{release}
 Provides:	ungif-devel = %{version}-%{release}
 %rename		%{_lib}ungif4-devel
@@ -77,7 +64,6 @@ This packages provides the developement files for giflib.
 
 %prep
 %setup -q
-%patch1 -p0
 %patch2 -p1 -b .am13~
 autoreconf -fi
 
@@ -87,60 +73,24 @@ autoreconf -fi
 
 %make
 
-# Handling of libungif compatibility
-MAJOR=`echo '%{version}' | sed -e 's/\([0-9]\+\)\..*/\1/'`
-%{__cc} %{ldflags} %{optflags} -shared -Wl,-soname,libungif.so.$MAJOR -Llib/.libs -lgif -o libungif.so.%{version}
-
 %install
 rm -rf %{buildroot}
 %makeinstall_std
 
-# Handling of libungif compatibility
-install -p -m 755 libungif.so.%{version} %{buildroot}%{_libdir}
-ln -sf libungif.so.%{version} %{buildroot}%{_libdir}/libungif.so.4
-ln -sf libungif.so.4 %{buildroot}%{_libdir}/libungif.so
+# Let's try to keep -lungif working for really old code
+ln -s libgif.so %buildroot%_libdir/libungif.so
 
 %files progs
 %doc AUTHORS BUGS COPYING ChangeLog NEWS README TODO
-%{_bindir}/gif2x11
-%{_bindir}/gif2rgb
-%{_bindir}/gifasm
-%{_bindir}/gifbg
-%{_bindir}/gifburst
-%{_bindir}/gifclip
-%{_bindir}/gifclrmp
-%{_bindir}/gifcolor
-%{_bindir}/gifcomb
-%{_bindir}/gifcompose
-%{_bindir}/giffiltr
-%{_bindir}/giffix
-%{_bindir}/gifflip
-%{_bindir}/gifhisto
-%{_bindir}/gifinfo
-%{_bindir}/gifinter
-%{_bindir}/gifinto
-%{_bindir}/gifovly
-%{_bindir}/gifpos
-%{_bindir}/gifrotat
-%{_bindir}/gifrsize
-%{_bindir}/gifspnge
-%{_bindir}/giftext
-%{_bindir}/gifwedge
-%{_bindir}/icon2gif
-%{_bindir}/raw2gif
-%{_bindir}/rgb2gif
-%{_bindir}/text2gif
+%_bindir/*
+%_mandir/man1/*
 
 %files -n %{libname}
 %{_libdir}/libgif.so.%{major}*
 
-%files -n %{libungif}
-%{_libdir}/libungif.so.%{major}*
-
 %files -n %{devname}
 %{_includedir}/gif_lib.h
-%{_libdir}/libgif.so
-%{_libdir}/libungif.so
+%{_libdir}/*.so
 
 
 %changelog
