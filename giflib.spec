@@ -1,6 +1,6 @@
-%define major	7
-%define	libname	%mklibname gif %{major}
-%define	devname	%mklibname -d gif
+%define major 7
+%define libname %mklibname gif %{major}
+%define devname %mklibname -d gif
 
 Summary:	Library for reading and writing gif images
 Name:		giflib
@@ -26,7 +26,7 @@ giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
 
-%package	progs
+%package progs
 Summary:	Gif tools based on giflib
 Group:		Graphics
 %rename		libungif-progs
@@ -68,7 +68,7 @@ This packages provides the developement files for giflib.
 autoreconf -fi
 
 %build
-%configure2_5x \
+%configure \
 	--disable-static
 
 %make
