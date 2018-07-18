@@ -13,13 +13,6 @@ Source0:	http://downloads.sourceforge.net/project/giflib/giflib-%{version}.tar.b
 BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
 
-%track
-prog %name = {
-	url = http://sourceforge.net/projects/giflib/
-	regex = %name-(__VER__)\.tar\.bz2
-	version = %version
-}
-
 %description
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
@@ -89,4 +82,3 @@ ln -s libgif.so %{buildroot}%{_libdir}/libungif.so
 %files -n %{devname}
 %{_includedir}/gif_lib.h
 %{_libdir}/*.so
-
