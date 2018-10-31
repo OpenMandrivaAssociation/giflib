@@ -5,7 +5,7 @@
 Summary:	Library for reading and writing gif images
 Name:		giflib
 Version:	5.1.4
-Release:	2
+Release:	3
 Group:		System/Libraries
 License:	BSD like
 Url:		http://giflib.sourceforge.net/
