@@ -5,11 +5,12 @@
 Summary:	Library for reading and writing gif images
 Name:		giflib
 Version:	5.1.7
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	BSD like
 Url:		http://giflib.sourceforge.net/
 Source0:	https://netcologne.dl.sourceforge.net/project/giflib/giflib-%{version}.tar.gz
+Patch0:		giflib-5.1.7-soname.patch
 BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
 
@@ -55,8 +56,7 @@ compression algorithm was patented.
 This packages provides the developement files for giflib.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 
 %build
 %make OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
