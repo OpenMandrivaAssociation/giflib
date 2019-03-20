@@ -11,7 +11,7 @@ License:	BSD like
 Url:		http://giflib.sourceforge.net/
 Source0:	https://netcologne.dl.sourceforge.net/project/giflib/giflib-%{version}.tar.gz
 Patch0:		giflib-5.1.7-soname.patch
-BuildRequires:	xmlto
+#BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
 
 %description
@@ -59,7 +59,9 @@ This packages provides the developement files for giflib.
 %autosetup -p1
 
 %build
-%make OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
+# remove weird docs
+sed -i 's!$(MAKE) -C doc!!g' Makefile
+%make OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
 
 %install
 %makeinstall_std OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
