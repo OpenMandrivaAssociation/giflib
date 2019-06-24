@@ -4,13 +4,12 @@
 
 Summary:	Library for reading and writing gif images
 Name:		giflib
-Version:	5.1.7
-Release:	2
+Version:	5.2.0
+Release:	1
 Group:		System/Libraries
 License:	BSD like
 Url:		http://giflib.sourceforge.net/
 Source0:	https://netcologne.dl.sourceforge.net/project/giflib/giflib-%{version}.tar.gz
-Patch0:		giflib-5.1.7-soname.patch
 #BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
 
@@ -60,11 +59,11 @@ This packages provides the developement files for giflib.
 
 %build
 # remove weird docs
-sed -i 's!$(MAKE) -C doc!!g' Makefile
-%make OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
+#sed -i 's!$(MAKE) -C doc!!g' Makefile
+%make OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" LIBVER=7.2 LIBMAJOR=7 all
 
 %install
-%makeinstall_std OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
+%makeinstall_std OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" LIBVER=7.2 LIBMAJOR=7
 
 # Let's try to keep -lungif working for really old code
 ln -s libgif.so %{buildroot}%{_libdir}/libungif.so
