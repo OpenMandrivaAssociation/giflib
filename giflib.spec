@@ -2,10 +2,15 @@
 %define libname %mklibname gif %{major}
 %define devname %mklibname -d gif
 
+%global optflags %{optflags} -O3
+
+# (tpg) enable PGO build
+%bcond_without pgo
+
 Summary:	Library for reading and writing gif images
 Name:		giflib
 Version:	5.2.1
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	BSD like
 Url:		http://giflib.sourceforge.net/
@@ -58,12 +63,35 @@ This packages provides the developement files for giflib.
 %autosetup -p1
 
 %build
+%setup_compile_flags
 # remove weird docs
 #sed -i 's!$(MAKE) -C doc!!g' Makefile
-%make OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
+%if %{with pgo}
+export LLVM_PROFILE_FILE=%{name}-%p.profile.d
+export LD_LIBRARY_PATH="$(pwd)"
+CFLAGS="%{optflags} -fprofile-instr-generate" \
+CXXFLAGS="%{optflags} -fprofile-instr-generate" \
+FFLAGS="$CFLAGS_PGO" \
+FCFLAGS="$CFLAGS_PGO" \
+LDFLAGS="%{ldflags} -fprofile-instr-generate" \
+%make_build OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
+
+make check
+
+unset LD_LIBRARY_PATH
+unset LLVM_PROFILE_FILE
+llvm-profdata merge --output=%{name}.profile *.profile.d
+
+make clean
+
+CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+%endif
+%make_build OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
 
 %install
-%makeinstall_std OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
+%make_install OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
 
 # Let's try to keep -lungif working for really old code
 ln -s libgif.so %{buildroot}%{_libdir}/libungif.so
