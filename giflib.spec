@@ -71,8 +71,8 @@ export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)"
 CFLAGS="%{optflags} -fprofile-instr-generate" \
 CXXFLAGS="%{optflags} -fprofile-instr-generate" \
-FFLAGS="$CFLAGS_PGO" \
-FCFLAGS="$CFLAGS_PGO" \
+FFLAGS="$CFLAGS" \
+FCFLAGS="$CFLAGS" \
 LDFLAGS="%{ldflags} -fprofile-instr-generate" \
 %make_build OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
 
