@@ -1,7 +1,7 @@
 %define major 7
 %define libname %mklibname gif %{major}
 %define devname %mklibname -d gif
-
+%define _disable_lto 1
 %global optflags %{optflags} -O3 -fPIC
 
 # (tpg) enable PGO build
