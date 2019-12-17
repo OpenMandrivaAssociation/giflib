@@ -2,10 +2,11 @@
 %define libname %mklibname gif %{major}
 %define devname %mklibname -d gif
 
-%global optflags %{optflags} -O3 -fPIC
+%global optflags %{optflags} -O3
 
 # (tpg) enable PGO build
-%bcond_without pgo
+# (tpg) 2019-12-17 BUILDSTDERR: ld: error: undefined symbol: GifErrorString
+%bcond_with pgo
 
 Summary:	Library for reading and writing gif images
 Name:		giflib
