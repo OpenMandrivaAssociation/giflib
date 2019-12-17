@@ -2,7 +2,7 @@
 %define libname %mklibname gif %{major}
 %define devname %mklibname -d gif
 
-%global optflags %{optflags} -O3
+%global optflags %{optflags} -O3 -fPIC
 
 # (tpg) enable PGO build
 # (tpg) 2019-12-17 BUILDSTDERR: ld: error: undefined symbol: GifErrorString
