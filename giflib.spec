@@ -17,6 +17,7 @@ License:	BSD like
 Url:		http://giflib.sourceforge.net/
 Source0:	https://netcologne.dl.sourceforge.net/project/giflib/giflib-%{version}.tar.gz
 Patch0:		https://src.fedoraproject.org/rpms/giflib/raw/master/f/giflib_quantize.patch
+Patch1:		https://git.archlinux.org/svntogit/packages.git/plain/trunk/giflib-5.1.9-make-flags.patch
 #BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
 
@@ -30,7 +31,7 @@ Summary:	Gif tools based on giflib
 Group:		Graphics
 %rename		libungif-progs
 
-%description	progs
+%description progs
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
