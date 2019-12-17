@@ -3,6 +3,7 @@
 %define devname %mklibname -d gif
 
 %global optflags %{optflags} -O3
+%define _disable_lto 1
 
 # (tpg) enable PGO build
 %bcond_without pgo
@@ -10,11 +11,12 @@
 Summary:	Library for reading and writing gif images
 Name:		giflib
 Version:	5.2.1
-Release:	2
+Release:	3
 Group:		System/Libraries
 License:	BSD like
 Url:		http://giflib.sourceforge.net/
 Source0:	https://netcologne.dl.sourceforge.net/project/giflib/giflib-%{version}.tar.gz
+Patch0:		https://src.fedoraproject.org/rpms/giflib/raw/master/f/giflib_quantize.patch
 #BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
 
@@ -35,16 +37,16 @@ compression algorithm was patented.
 
 This package provides some gif tools based on giflib.
 
-%package -n	%{libname}
+%package -n %{libname}
 Group:		System/Libraries
 Summary:	Library for reading and writing gif images
 
-%description -n	%{libname}
+%description -n %{libname}
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
 
-%package -n	%{devname}
+%package -n %{devname}
 Group:		Development/C
 Summary:	Development files for giflib
 Requires:	%{libname} = %{version}-%{release}
@@ -52,7 +54,7 @@ Provides:	giflib-devel = %{version}-%{release}
 Provides:	ungif-devel = %{version}-%{release}
 %rename		%{_lib}ungif4-devel
 
-%description -n	%{devname}
+%description -n %{devname}
 giflib is a library for reading and writing gif images. It is API and
 ABI compatible with libungif which was in wide use while the LZW
 compression algorithm was patented.
