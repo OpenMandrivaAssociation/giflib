@@ -6,7 +6,7 @@
 
 # (tpg) enable PGO build
 # (tpg) 2019-12-17 BUILDSTDERR: ld: error: undefined symbol: GifErrorString
-%bcond_with pgo
+%bcond_without pgo
 
 Summary:	Library for reading and writing gif images
 Name:		giflib
@@ -18,7 +18,7 @@ Url:		http://giflib.sourceforge.net/
 Source0:	https://netcologne.dl.sourceforge.net/project/giflib/giflib-%{version}.tar.gz
 Patch0:		https://src.fedoraproject.org/rpms/giflib/raw/master/f/giflib_quantize.patch
 Patch1:		https://git.archlinux.org/svntogit/packages.git/plain/trunk/giflib-5.1.9-make-flags.patch
-#BuildRequires:	xmlto
+BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
 
 %description
@@ -83,7 +83,7 @@ make check
 
 unset LD_LIBRARY_PATH
 unset LLVM_PROFILE_FILE
-llvm-profdata merge --output=%{name}.profile *.profile.d
+llvm-profdata merge --output=%{name}.profile tests/*.profile.d
 
 make clean
 
