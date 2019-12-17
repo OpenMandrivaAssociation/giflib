@@ -3,7 +3,6 @@
 %define devname %mklibname -d gif
 
 %global optflags %{optflags} -O3
-%define _disable_lto 1
 
 # (tpg) enable PGO build
 %bcond_without pgo
@@ -66,7 +65,7 @@ This packages provides the developement files for giflib.
 %autosetup -p1
 
 %build
-%setup_compile_flags
+%set_build_flags
 # remove weird docs
 #sed -i 's!$(MAKE) -C doc!!g' Makefile
 %if %{with pgo}
@@ -77,7 +76,7 @@ CXXFLAGS="%{optflags} -fprofile-instr-generate" \
 FFLAGS="$CFLAGS" \
 FCFLAGS="$CFLAGS" \
 LDFLAGS="%{ldflags} -fprofile-instr-generate" \
-%make_build OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
+%make_build CFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
 
 make check
 
@@ -91,10 +90,10 @@ CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 %endif
-%make_build OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
+%make_build CFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
 
 %install
-%make_install OFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
+%make_install CFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
 
 # Let's try to keep -lungif working for really old code
 ln -s libgif.so %{buildroot}%{_libdir}/libungif.so
