@@ -4,9 +4,12 @@
 %define _disable_ld_no_undefined 1
 %global optflags %{optflags} -O3 -fPIC
 
-# (tpg) enable PGO build
-# (tpg) 2019-12-17 BUILDSTDERR: ld: error: undefined symbol: GifErrorString
+# (tpg) enable PGO build, but not on riscv as quemu dies
+%ifarch %{riscv}
+%bcond_with pgo
+%else
 %bcond_without pgo
+%endif
 
 Summary:	Library for reading and writing gif images
 Name:		giflib
