@@ -17,16 +17,12 @@
 %endif
 
 # (tpg) enable PGO build, but not on riscv as quemu dies
-%ifarch %{riscv}
-%bcond_with pgo
-%else
 %bcond_without pgo
-%endif
 
 Summary:	Library for reading and writing gif images
 Name:		giflib
 Version:	5.2.1
-Release:	4
+Release:	6
 Group:		System/Libraries
 License:	BSD like
 Url:		http://giflib.sourceforge.net/
@@ -109,7 +105,7 @@ This packages provides the developement files for giflib.
 
 %if %{with compat32}
 mkdir build32
-cp -a `ls -1 |grep -v build32` build32
+cp -a $(ls -1 |grep -v build32) build32
 cd build32
 %make_build CFLAGS="$CFLAGS -m32" LDFLAGS="%{ldflags} -m32" CC=gcc PREFIX="%{_prefix}" LIBDIR="%{_prefix}/lib" libgif.so
 %make_build CFLAGS="$CFLAGS -m32" LDFLAGS="%{ldflags} -m32" CC=gcc check
@@ -119,31 +115,29 @@ cd ..
 # remove weird docs
 #sed -i 's!$(MAKE) -C doc!!g' Makefile
 %if %{with pgo}
-export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)"
-CFLAGS="%{optflags} -fprofile-instr-generate" \
-CXXFLAGS="%{optflags} -fprofile-instr-generate" \
-FFLAGS="$CFLAGS" \
-FCFLAGS="$CFLAGS" \
-LDFLAGS="%{ldflags} -fprofile-instr-generate" \
-%make_build CFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
+
+CFLAGS="%{optflags} -fprofile-generate" \
+CXXFLAGS="%{optflags} -fprofile-generate" \
+LDFLAGS="%{build_ldflags} -fprofile-generate" \
+%make_build PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
 
 make check
 
 unset LD_LIBRARY_PATH
-unset LLVM_PROFILE_FILE
-llvm-profdata merge --output=%{name}.profile tests/*.profile.d
-
+llvm-profdata merge --output=%{name}-llvm.profdata $(find . -name "*.profraw" -type f)
+PROFDATA="$(realpath %{name}-llvm.profdata)"
+find . -name "*.profraw" -type f -delete
 make clean
 
-CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+CFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+CXXFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+LDFLAGS="%{build_ldflags} -fprofile-use=$PROFDATA" \
 %endif
-%make_build CFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
+%make_build PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}" all
 
 %install
-%make_install CFLAGS="%{optflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
+%make_install PREFIX="%{_prefix}" LIBDIR="%{_libdir}" MANDIR="%{_mandir}/man1" CC="%{__cc}"
 
 %if %{with compat32}
 mkdir -p %{buildroot}%{_prefix}/lib
@@ -159,7 +153,7 @@ rm %{buildroot}%{_libdir}/*.a
 %files progs
 %doc COPYING ChangeLog NEWS README TODO
 %{_bindir}/*
-%{_mandir}/man1/*
+%doc %{_mandir}/man1/*
 
 %files -n %{libname}
 %{_libdir}/libgif.so.%{major}*
