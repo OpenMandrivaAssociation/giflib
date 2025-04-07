@@ -22,15 +22,18 @@
 Summary:	Library for reading and writing gif images
 Name:		giflib
 Version:	5.2.2
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	BSD like
 Url:		https://giflib.sourceforge.net/
 Source0:	https://netcologne.dl.sourceforge.net/project/giflib/giflib-%{version}.tar.gz
-Patch0:		https://src.fedoraproject.org/rpms/giflib/raw/master/f/giflib_quantize.patch
-Patch1:		https://git.archlinux.org/svntogit/packages.git/plain/trunk/giflib-5.1.9-make-flags.patch
 BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
+
+%patchlist
+https://src.fedoraproject.org/rpms/giflib/raw/master/f/giflib_quantize.patch
+https://git.archlinux.org/svntogit/packages.git/plain/trunk/giflib-5.1.9-make-flags.patch
+giflib-5.2.2-cve-2025-31344.patch
 
 %description
 giflib is a library for reading and writing gif images. It is API and
