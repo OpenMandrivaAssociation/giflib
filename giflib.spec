@@ -29,6 +29,7 @@ Url:		https://giflib.sourceforge.net/
 Source0:	https://netcologne.dl.sourceforge.net/project/giflib/giflib-%{version}.tar.gz
 BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
+BuildRequires:	imagemagick
 
 %patchlist
 https://src.fedoraproject.org/rpms/giflib/raw/master/f/giflib_quantize.patch
