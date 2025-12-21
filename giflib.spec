@@ -27,6 +27,7 @@ Group:		System/Libraries
 License:	BSD like
 Url:		https://giflib.sourceforge.net/
 Source0:	https://netcologne.dl.sourceforge.net/project/giflib/giflib-%{version}.tar.gz
+BuildRequires:	make
 BuildRequires:	xmlto
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	imagemagick
